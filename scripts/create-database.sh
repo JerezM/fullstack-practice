@@ -9,7 +9,7 @@ else
 fi
 
 # Crear y ejecutar el contenedor de PostgreSQL
-docker run --name postgres-todolist -e POSTGRES_USER=user -e POSTGRES_PASSWORD=12345 -d postgres -p 5432:5432
+docker run --name postgres-todolist -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -d postgres -p 5432:5432
 
 # Esperar unos segundos para asegurar que el contenedor esté completamente ejecutado
 echo "Esperando a que PostgreSQL se inicie..."
