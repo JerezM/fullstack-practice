@@ -33,13 +33,6 @@ public class ItemService {
         return itemsDTO;
     }
 
-    @Transactional(readOnly = true)
-    public ItemDTO getItemById(Long id) {
-        Optional<Item> item = itemRepository.findById(id);
-
-        return item.map(DTOUtils::toDTO).orElse(null);
-    }
-
     @Transactional
     public ItemDTO createItem(ItemDTO itemDTO) {
         Item itemCreated = DTOUtils.fromDTO(itemDTO);
@@ -49,19 +42,34 @@ public class ItemService {
     }
 
     @Transactional
-    public ItemDTO updateItem(Long itemId, ItemDTO itemDTO) {
+    public ItemDTO updateContentItem(Long itemId, String itemContent) {
         Optional<Item> itemToUpdate = itemRepository.findById(itemId);
+        ItemDTO itemDTO;
 
         if (itemToUpdate.isPresent()) {
             Item item = itemToUpdate.get();
 
-            if (!item.getContent().equals(itemDTO.getContent())) {
-                item.setContent(itemDTO.getContent());
+            if (!item.getContent().equals(itemContent)) {
+                item.setContent(itemContent);
             }
 
-            if (item.isDone() != itemDTO.isDone()) {
-                item.setDone(itemDTO.isDone());
-            }
+            item = itemRepository.save(item);
+            itemDTO = DTOUtils.toDTO(item);
+        } else {
+            itemDTO = null;
+        }
+
+        return itemDTO;
+    }
+
+    @Transactional
+    public ItemDTO checkItem(Long itemId) {
+        Optional<Item> itemToUpdate = itemRepository.findById(itemId);
+        ItemDTO itemDTO;
+
+        if (itemToUpdate.isPresent()) {
+            Item item = itemToUpdate.get();
+            item.setDone(!item.isDone());
 
             item = itemRepository.save(item);
             itemDTO = DTOUtils.toDTO(item);
@@ -79,9 +87,7 @@ public class ItemService {
 
         if (item.isPresent()) {
             Item itemToDelete = item.get();
-            itemToDelete.setDeletedAt(new Date());
-
-            itemRepository.save(itemToDelete);
+            itemRepository.deleteById(itemId);
             itemDeletedDTO = DTOUtils.toDTO(itemToDelete);
         }
 

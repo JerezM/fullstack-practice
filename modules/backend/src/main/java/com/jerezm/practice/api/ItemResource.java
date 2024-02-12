@@ -28,14 +28,6 @@ public class ItemResource {
         return new ResponseEntity<>(itemsDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/{itemId}")
-    public ResponseEntity<ItemDTO> getItemById(@PathVariable("itemId") Long itemId) {
-        ItemDTO itemDTO = itemService.getItemById(itemId);
-
-        HttpStatus httpStatus = (itemDTO != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(itemDTO, httpStatus);
-    }
-
     @PostMapping
     public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
         ItemDTO itemDTOCreated = itemService.createItem(itemDTO);
@@ -43,8 +35,16 @@ public class ItemResource {
     }
 
     @PutMapping("/{itemId}")
-    public ResponseEntity<ItemDTO> updateItem(@PathVariable("itemId") Long itemId, @RequestBody ItemDTO itemDTO) {
-        ItemDTO itemDTOUpdated = itemService.updateItem(itemId, itemDTO);
+    public ResponseEntity<ItemDTO> updateContentItem(@PathVariable("itemId") Long itemId, @RequestBody ItemDTO itemDTO) {
+        ItemDTO itemDTOUpdated = itemService.updateContentItem(itemId, itemDTO.getContent());
+
+        HttpStatus httpStatus = (itemDTOUpdated != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(itemDTOUpdated, httpStatus);
+    }
+
+    @PutMapping("/{itemId}/check")
+    public ResponseEntity<ItemDTO> checkItem(@PathVariable("itemId") Long itemId) {
+        ItemDTO itemDTOUpdated = itemService.checkItem(itemId);
 
         HttpStatus httpStatus = (itemDTOUpdated != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(itemDTOUpdated, httpStatus);
