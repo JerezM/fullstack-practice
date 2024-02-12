@@ -29,6 +29,10 @@ public class Item {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deleted_at")
+    private Date deletedAt;
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
@@ -37,6 +41,8 @@ public class Item {
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        if (this.deletedAt == null) {// This to avoid the update of updatedAt when the item is soft deleted
+            updatedAt = new Date();
+        }
     }
 }

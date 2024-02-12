@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,22 @@ public class ItemService {
             itemDTO = null;
         }
 
-
         return itemDTO;
+    }
+
+    @Transactional
+    public ItemDTO deleteItemById(Long itemId) {
+        Optional<Item> item = itemRepository.findById(itemId);
+        ItemDTO itemDeletedDTO = null;
+
+        if (item.isPresent()) {
+            Item itemToDelete = item.get();
+            itemToDelete.setDeletedAt(new Date());
+
+            itemRepository.save(itemToDelete);
+            itemDeletedDTO = DTOUtils.toDTO(itemToDelete);
+        }
+
+        return itemDeletedDTO;
     }
 }

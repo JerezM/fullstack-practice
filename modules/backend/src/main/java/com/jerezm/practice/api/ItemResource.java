@@ -49,4 +49,12 @@ public class ItemResource {
         HttpStatus httpStatus = (itemDTOUpdated != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(itemDTOUpdated, httpStatus);
     }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<ItemDTO> deleteItemById(@PathVariable("itemId") Long itemId) {
+        ItemDTO itemDTO = itemService.deleteItemById(itemId);
+
+        HttpStatus httpStatus = (itemDTO != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(itemDTO, httpStatus);
+    }
 }
