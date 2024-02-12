@@ -1,18 +1,16 @@
 package com.jerezm.practice.api;
 
 import com.jerezm.practice.dto.ItemDTO;
-import com.jerezm.practice.model.Item;
 import com.jerezm.practice.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("items")
+@RequestMapping("api/items")
 public class ItemResource {
     private final ItemService itemService;
 
