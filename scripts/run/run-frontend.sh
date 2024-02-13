@@ -2,4 +2,4 @@
 
 cd .. && cd ..
 
-cd modules/frontend/ && npm start
+cd modules/todolist-ui/ && npm start
