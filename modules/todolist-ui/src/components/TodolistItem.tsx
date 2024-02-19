@@ -23,7 +23,7 @@ export const TodolistItem: FunctionComponent<TodolistItemProps> = ({isDone}) => 
             <div className="item-first-part">
                 <Checkbox checked={isCheck} onChange={onCheck} sx={{color: Colors.PRIMARY_ORANGE, '&.Mui-checked': {color: Colors.PRIMARY_ORANGE}}}/>                
                 <Tooltip title={content} placement="top">
-                    <div className="item-content">
+                    <div className="item-content" style={{textDecoration: isCheck ? "line-through" : "none"}}>
                         <TText type={TextType.TEXT}>{content}</TText>
                     </div>
                 </Tooltip>
