@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
+import { Todolist } from './components/Todolist';
+import { TText } from './components/utils/Texts';
+import { TextType } from './model/utils/TextType';
+import { Colors } from './utils/Colors';
 
-function App() {
+export const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={{backgroundColor: Colors.PRIMARY_ORANGE, paddingTop: "2%"}}>
+        <TText type={TextType.HEADER2} style={{color: "white"}}>App Header</TText>
+      </div>
+      <Todolist/>
     </div>
   );
 }
-
-export default App;

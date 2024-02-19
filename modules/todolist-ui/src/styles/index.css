@@ -1,3 +1,19 @@
+:root {
+  /* UI-UX COLORS */
+  --col-primary-orange: #ecac40;
+
+  --col-accents: #FFFFFF;
+
+  /* FONT VARS */    
+  --size-header2: 16px;
+  --weight-header2: 600;
+  --lineHeight-header2: 24px;
+
+  --size-text: 14px;
+  --weight-text: 400;
+  --lineHeight-text: 20px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
