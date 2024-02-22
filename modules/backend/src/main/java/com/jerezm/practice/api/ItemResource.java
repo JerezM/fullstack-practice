@@ -1,7 +1,10 @@
 package com.jerezm.practice.api;
 
 import com.jerezm.practice.dto.ItemDTO;
+import com.jerezm.practice.exception.ItemNotFoundException;
 import com.jerezm.practice.service.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/items")
+@RequestMapping("/items")
 public class ItemResource {
+    Logger logger = LoggerFactory.getLogger(ItemResource.class);
+
     private final ItemService itemService;
 
     @Autowired
@@ -33,26 +38,35 @@ public class ItemResource {
     }
 
     @PutMapping("/{itemId}")
-    public ResponseEntity<ItemDTO> updateContentItem(@PathVariable("itemId") Long itemId, @RequestBody ItemDTO itemDTO) {
-        ItemDTO itemDTOUpdated = itemService.updateContentItem(itemId, itemDTO.getContent());
-
-        HttpStatus httpStatus = (itemDTOUpdated != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(itemDTOUpdated, httpStatus);
+    public ResponseEntity<Object> updateContentItem(@PathVariable("itemId") Long itemId, @RequestBody ItemDTO itemDTO) {
+        try {
+            ItemDTO itemDTOUpdated = itemService.updateContentItem(itemId, itemDTO.getContent());
+            return new ResponseEntity<>(itemDTOUpdated, HttpStatus.OK);
+        } catch (ItemNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Error trying to update content from item. Item not found.", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{itemId}/check")
-    public ResponseEntity<ItemDTO> checkItem(@PathVariable("itemId") Long itemId) {
-        ItemDTO itemDTOUpdated = itemService.checkItem(itemId);
-
-        HttpStatus httpStatus = (itemDTOUpdated != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(itemDTOUpdated, httpStatus);
+    public ResponseEntity<Object> checkItem(@PathVariable("itemId") Long itemId) {
+        try {
+            ItemDTO itemDTOUpdated = itemService.checkItem(itemId);
+            return new ResponseEntity<>(itemDTOUpdated, HttpStatus.OK);
+        } catch (ItemNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Error trying to check item. Item not found.", HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<ItemDTO> deleteItemById(@PathVariable("itemId") Long itemId) {
-        ItemDTO itemDTO = itemService.deleteItemById(itemId);
-
-        HttpStatus httpStatus = (itemDTO != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(itemDTO, httpStatus);
+    public ResponseEntity<Object> deleteItemById(@PathVariable("itemId") Long itemId) {
+        try {
+            ItemDTO itemDTO = itemService.deleteItemById(itemId);
+            return new ResponseEntity<>(itemDTO, HttpStatus.OK);
+        } catch (ItemNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Error trying to delete item. Item not found.", HttpStatus.NOT_FOUND);
+        }
     }
 }

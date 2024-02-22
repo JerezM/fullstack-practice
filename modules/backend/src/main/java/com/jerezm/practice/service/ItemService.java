@@ -1,6 +1,7 @@
 package com.jerezm.practice.service;
 
 import com.jerezm.practice.dto.ItemDTO;
+import com.jerezm.practice.exception.ItemNotFoundException;
 import com.jerezm.practice.model.Item;
 import com.jerezm.practice.utils.DTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +42,7 @@ public class ItemService {
     }
 
     @Transactional
-    public ItemDTO updateContentItem(Long itemId, String itemContent) {
+    public ItemDTO updateContentItem(Long itemId, String itemContent) throws ItemNotFoundException {
         Optional<Item> itemToUpdate = itemRepository.findById(itemId);
         ItemDTO itemDTO;
 
@@ -56,14 +56,14 @@ public class ItemService {
             item = itemRepository.save(item);
             itemDTO = DTOUtils.toDTO(item);
         } else {
-            itemDTO = null;
+            throw new ItemNotFoundException("[ItemService][NotFoundId] Failed to update content for itemId: " + itemId);
         }
 
         return itemDTO;
     }
 
     @Transactional
-    public ItemDTO checkItem(Long itemId) {
+    public ItemDTO checkItem(Long itemId) throws ItemNotFoundException {
         Optional<Item> itemToUpdate = itemRepository.findById(itemId);
         ItemDTO itemDTO;
 
@@ -74,14 +74,14 @@ public class ItemService {
             item = itemRepository.save(item);
             itemDTO = DTOUtils.toDTO(item);
         } else {
-            itemDTO = null;
+            throw new ItemNotFoundException("[ItemService][NotFoundId] Failed to check itemId: " + itemId);
         }
 
         return itemDTO;
     }
 
     @Transactional
-    public ItemDTO deleteItemById(Long itemId) {
+    public ItemDTO deleteItemById(Long itemId) throws ItemNotFoundException {
         Optional<Item> item = itemRepository.findById(itemId);
         ItemDTO itemDeletedDTO = null;
 
@@ -89,6 +89,8 @@ public class ItemService {
             Item itemToDelete = item.get();
             itemRepository.deleteById(itemId);
             itemDeletedDTO = DTOUtils.toDTO(itemToDelete);
+        } else {
+            throw new ItemNotFoundException("[ItemService][NotFoundId] Failed to delete itemId: " + itemId);
         }
 
         return itemDeletedDTO;
