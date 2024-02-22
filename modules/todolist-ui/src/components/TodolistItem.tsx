@@ -4,15 +4,16 @@ import { TextType } from "../model/utils/TextType";
 import { Button, Checkbox, Tooltip } from "@mui/material";
 import { Colors } from "../utils/Colors";
 import '../styles/todolist-item.css';
+import { Item } from "../model/todolist/Item";
 
 interface TodolistItemProps {
-    isDone: boolean;
+    item: Item;
 }
 
-export const TodolistItem: FunctionComponent<TodolistItemProps> = ({isDone}) => {
+export const TodolistItem: FunctionComponent<TodolistItemProps> = ({item}) => {
 
-    const [content, setContent] = useState<string>("Buy groceries and something more.");
-    const [isCheck, setIsCheck] = useState<boolean>(isDone);
+    const [content, setContent] = useState<string>(item.content);
+    const [isCheck, setIsCheck] = useState<boolean>(item.isDone);
 
     const onCheck = () => {
         setIsCheck(prev => !prev);

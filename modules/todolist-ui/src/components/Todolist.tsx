@@ -1,14 +1,24 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { TText } from "./utils/Texts";
 import { TextType } from "../model/utils/TextType";
 import { TodolistItem } from "./TodolistItem";
 import '../styles/todolist.css';
+import TodolistService from "../services/TodolistService";
+import { Item } from "../model/todolist/Item";
 
 interface TodolistProps {}
 
 export const Todolist: FunctionComponent<TodolistProps> = () => {
 
+    const [items, setItems] = useState<Array<Item>>([]);
     const [itemToAddContent, setItemToAddContent] = useState<string>("");
+
+    useEffect(() => {
+        TodolistService.getAllItems().then(items => {
+            console.log(items);
+            setItems(items);
+        })
+    },[]);
 
     const handleChangeOnAddItem = (event: React.ChangeEvent<HTMLInputElement>) => {
         setItemToAddContent(event.target.value);
@@ -20,9 +30,9 @@ export const Todolist: FunctionComponent<TodolistProps> = () => {
                 <TText type={TextType.HEADER2}>To-Do List</TText>
             </div>
             <div className="list">
-                <TodolistItem isDone={false}/>
-                <TodolistItem isDone={false}/>
-                <TodolistItem isDone={false}/>
+                {items.map(item => 
+                    <TodolistItem key={item.id} item={item} />    
+                )}                
             </div>
             <div className="add-item">
                 <input className="add-item-input" type="text" placeholder="New Task" value={itemToAddContent} onChange={handleChangeOnAddItem}/>
