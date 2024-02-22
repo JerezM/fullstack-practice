@@ -13,7 +13,6 @@ public class DTOUtils {
             .content(item.getContent())
             .isDone(item.isDone())
             .createdAt(item.getCreatedAt())
-            .updatedAt(item.getUpdatedAt())
             .build();
     }
 
@@ -24,7 +23,6 @@ public class DTOUtils {
         item.setContent(itemDTO.getContent());
         item.setDone(itemDTO.isDone());
         item.setCreatedAt(itemDTO.getCreatedAt());
-        item.setUpdatedAt(itemDTO.getUpdatedAt());
 
         return item;
     }

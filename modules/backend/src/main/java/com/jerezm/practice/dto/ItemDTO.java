@@ -14,5 +14,4 @@ public class ItemDTO {
     private String content;
     private boolean isDone;
     private Date createdAt;
-    private Date updatedAt;
 }
