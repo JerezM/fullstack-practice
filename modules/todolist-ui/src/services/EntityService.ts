@@ -40,4 +40,9 @@ export default class EntityService {
         const request = this.prepareRequest("GET", body);
         return this.executeRequest(request, endpoint, params);
     }
+
+    protected async put<T>(endpoint?: string, params?: Record<string, string>, body?: object): Promise<T> {
+        const request = this.prepareRequest("PUT", body);
+        return this.executeRequest(request, endpoint, params);
+    }
 }

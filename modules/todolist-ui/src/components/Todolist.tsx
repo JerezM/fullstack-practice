@@ -14,10 +14,8 @@ export const Todolist: FunctionComponent<TodolistProps> = () => {
     const [itemToAddContent, setItemToAddContent] = useState<string>("");
 
     useEffect(() => {
-        TodolistService.getAllItems().then(items => {
-            console.log(items);
-            setItems(items);
-        })
+        TodolistService.getAllItems()
+            .then(items => setItems(items));
     },[]);
 
     const handleChangeOnAddItem = (event: React.ChangeEvent<HTMLInputElement>) => {

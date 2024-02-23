@@ -1,6 +1,6 @@
 export interface Item {
-    id?: number;
+    id: number;
     content: string;
-    isDone: boolean;
+    done: boolean;
     createdAt?: Date;
 }

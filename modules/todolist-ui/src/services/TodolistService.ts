@@ -11,6 +11,10 @@ class TodolistService extends EntityService {
     async getAllItems(): Promise<Array<Item>> {
         return this.get<Array<Item>>();
     } 
+
+    async checkItem(id: number) {
+        return this.put<void>(`/${id}/check`);
+    }
 }
 
 export default new TodolistService();
