@@ -25,7 +25,7 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public List<ItemDTO> getItems(){
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemRepository.findAllByOrderByIdAsc();
         List<ItemDTO> itemsDTO = new ArrayList<>();
 
         items.forEach(item -> itemsDTO.add(DTOUtils.toDTO(item)));
